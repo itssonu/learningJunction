@@ -1,0 +1,25 @@
+{
+  "name": "learningjunction",
+  "version": "1.0.0",
+  "description": "teacher and student junction",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/itssonu/learningJunction.git"
+  },
+  "author": "sonu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/itssonu/learningJunction/issues"
+  },
+  "homepage": "https://github.com/itssonu/learningJunction#readme",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^8.0.2"
+  }
+}
