@@ -1,7 +1,8 @@
-const { signupValidation, signup } = require("../controllers/authController");
-
-signupValidation;
+const {
+  signupValidationRule,
+  signup,
+} = require("../controllers/authController");
 
 module.exports = (app) => {
-  app.post("/signup", signupValidation, signup);
+  app.post("/signup", signupValidationRule, signup);
 };
