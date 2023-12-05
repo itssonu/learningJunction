@@ -1,6 +1,6 @@
 const { signupValidation, signup } = require("../controllers/authController");
 
-signupValidation
+signupValidation;
 
 module.exports = (app) => {
   app.post("/signup", signupValidation, signup);
