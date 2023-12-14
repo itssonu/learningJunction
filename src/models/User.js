@@ -31,7 +31,7 @@ const userSchema = new Schema(
     },
   },
   {
-    timestamps: { currentTime: () => Math.floor(Date.now() / 1000) },
+    timestamps: true,
     toJSON: {
       transform: function (doc, ret) {
         delete ret.password;

@@ -20,7 +20,7 @@ exports.signup = async (req, res) => {
   const existingEmailUser = await User.findOne({ email: email });
   const dbPassword = await createHashPassword(password);
 
-  if (existingEmailUser && existingEmailUser.emailVerifiedAt !== "") {
+  if (existingEmailUser && existingEmailUser.emailVerifiedAt !== null) {
     return apiResponse({
       statusCode: 400,
       data: [],
@@ -31,7 +31,7 @@ exports.signup = async (req, res) => {
     firstName,
     lastName,
     email,
-    password: db,
+    password: dbPassword,
   };
 
   if (existingEmailUser) {
@@ -47,25 +47,28 @@ exports.signup = async (req, res) => {
         message: "something went wrong",
       })(res);
     }
+    return apiResponse({
+      statusCode: 200,
+      data: updatedUser,
+      message: "signup successfully",
+    })(res);
   } else {
     const newUser = new User(userData);
     const newUserSavedData = await newUser.save();
-  }
+    if (!newUserSavedData) {
+      return apiResponse({
+        statusCode: 400,
+        data: [],
+        message: "failed to create account",
+      })(res);
+    }
 
-  console.log(savedUser);
-  if (!savedUser) {
     return apiResponse({
-      statusCode: 400,
-      data: [],
-      message: "failed to create account",
+      statusCode: 200,
+      data: newUserSavedData,
+      message: "signup successfully",
     })(res);
   }
-
-  return apiResponse({
-    statusCode: 200,
-    data: savedUser,
-    message: "signup successfully",
-  })(res);
 };
 
 exports.signupValidationRule = [
@@ -84,11 +87,11 @@ exports.signupValidationRule = [
     .isEmail()
     .withMessage("Invalid email address"),
 
-  body("number")
-    .notEmpty()
-    .withMessage("Mobile number is required")
-    .isMobilePhone()
-    .withMessage("Invalid mobile number"),
+  // body("number")
+  //   .notEmpty()
+  //   .withMessage("Mobile number is required")
+  //   .isMobilePhone()
+  //   .withMessage("Invalid mobile number"),
 
   body("password")
     .notEmpty()
