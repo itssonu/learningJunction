@@ -45,3 +45,15 @@ exports.signupValidation = [
 
   validate,
 ];
+
+exports.loginValidation = [
+  body("email")
+    .notEmpty()
+    .withMessage("Email is required")
+    .isEmail()
+    .withMessage("Invalid email address"),
+
+  body("password").notEmpty().trim().withMessage("password is required"),
+
+  validate,
+];

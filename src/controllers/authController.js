@@ -1,7 +1,11 @@
 const { body, validationResult } = require("express-validator");
 const apiResponse = require("../apiResponse");
 const User = require("../models/User");
-const { createHashPassword } = require("../utils/authHelper");
+const {
+  createHashPassword,
+  verifyPassword,
+  createJwtToken,
+} = require("../utils/authHelper");
 
 exports.signup = async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
@@ -58,4 +62,33 @@ exports.signup = async (req, res) => {
       message: "signup successfully please verify your email for login",
     })(res);
   }
+};
+
+exports.login = async (req, res) => {
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+  const userData = user.toObject({ showPassword: true });
+  if (!user) {
+    return apiResponse({
+      statusCode: 400,
+      message: "email not found",
+    })(res);
+  }
+  const isPasswordValid = await verifyPassword(password, userData.password);
+  if (!isPasswordValid) {
+    return apiResponse({
+      statusCode: 400,
+      message: "email not found",
+    })(res);
+  }
+
+  const token = createJwtToken(user.toObject());
+  return apiResponse({
+    statusCode: 200,
+    data: {
+      token,
+      userInfo: user,
+    },
+    message: "login successfully",
+  })(res);
 };
