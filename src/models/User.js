@@ -34,7 +34,7 @@ const userSchema = new Schema(
     timestamps: true,
     toJSON: {
       transform: function (doc, ret, options) {
-        if (!options?.showPassword ?? true) delete ret.password;
+        if (!options.showPassword) delete ret.password;
         delete ret._id;
         delete ret.__v;
       },

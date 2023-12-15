@@ -73,7 +73,7 @@ exports.login = async (req, res) => {
       message: "email not found",
     })(res);
   }
-  const userData = user.toObject({ showPassword: true });
+  const userData = user.toJSON({ showPassword: true });
   const isPasswordValid = await verifyPassword(password, userData.password);
   if (!isPasswordValid) {
     return apiResponse({
@@ -82,7 +82,7 @@ exports.login = async (req, res) => {
     })(res);
   }
 
-  const token = createJwtToken(user.toObject());
+  const token = createJwtToken(user.toJSON());
   return apiResponse({
     statusCode: 200,
     data: {
