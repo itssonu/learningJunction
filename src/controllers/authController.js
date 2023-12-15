@@ -67,13 +67,13 @@ exports.signup = async (req, res) => {
 exports.login = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
-  const userData = user.toObject({ showPassword: true });
   if (!user) {
     return apiResponse({
       statusCode: 400,
       message: "email not found",
     })(res);
   }
+  const userData = user.toObject({ showPassword: true });
   const isPasswordValid = await verifyPassword(password, userData.password);
   if (!isPasswordValid) {
     return apiResponse({
