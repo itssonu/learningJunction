@@ -50,6 +50,7 @@ exports.loginValidation = [
   body("email")
     .notEmpty()
     .withMessage("Email is required")
+    .normalizeEmail()
     .isEmail()
     .withMessage("Invalid email address"),
 
